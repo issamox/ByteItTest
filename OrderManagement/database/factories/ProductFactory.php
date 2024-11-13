@@ -20,9 +20,9 @@ class ProductFactory extends Factory
     {
         return [
             'name' => fake()->name,
-            'email' => fake()->unique()->safeEmail,
-            'mobile' => fake()->phoneNumber,
-            'address' => fake()->address,
+            'description' => fake()->paragraph(1),
+            'price' => fake()->numberBetween(1,1000),
+           // 'image' => fake()->imageUrl('400','400','products', true),
         ];
     }
 }
