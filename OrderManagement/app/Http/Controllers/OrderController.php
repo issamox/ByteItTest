@@ -129,7 +129,7 @@ class OrderController extends Controller
         $pdf = Pdf::loadView('orders.pdf', compact('order','total'));
 
         // Return the generated PDF as a response to the browser
-        return $pdf->stream('order-' . $order->id . '.pdf');
+        return $pdf->download('order-' . $order->id . '.pdf');
     }
 
 }

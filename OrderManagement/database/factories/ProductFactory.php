@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,7 +23,9 @@ class ProductFactory extends Factory
             'name' => fake()->name,
             'description' => fake()->paragraph(1),
             'price' => fake()->numberBetween(1,1000),
+            'category_id' => Category::inRandomOrder()->first()->id,
            // 'image' => fake()->imageUrl('400','400','products', true),
+
         ];
     }
 }
