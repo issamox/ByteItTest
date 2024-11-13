@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*Route::get('/', function () {
@@ -10,3 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('products', ProductController::class)->except(['show']);
 Route::resource('clients', ClientController::class)->except(['show']);
+Route::resource('orders', OrderController::class)->except(['show']);
+
+Route::get('orders/{order}/pdf', [OrderController::class, 'generatePDF'])->name('orders.pdf');
