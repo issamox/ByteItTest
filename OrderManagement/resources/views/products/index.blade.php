@@ -7,12 +7,6 @@
     <!--  create a new product -->
     <a href="{{ route('products.create') }}" class="bg-green-500 text-white my-5 px-4 py-2 inline-block rounded hover:bg-yellow-600">Create New Product</a>
 
-    <!-- Display Success Message -->
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
 
     <!-- Products Table -->
     <div class="overflow-x-auto bg-white shadow-md rounded-lg p-4">

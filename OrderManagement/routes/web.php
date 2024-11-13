@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 
 /*Route::get('/', function () {
@@ -8,3 +9,4 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::resource('products', ProductController::class)->except(['show']);
+Route::resource('clients', ClientController::class)->except(['show']);

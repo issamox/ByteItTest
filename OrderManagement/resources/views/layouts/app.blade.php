@@ -17,6 +17,7 @@
         <nav>
             <ul class="flex space-x-6">
                 <li><a href="{{ route('products.index') }}" class="hover:text-gray-300">Products</a></li>
+                <li><a href="{{ route('clients.index') }}" class="hover:text-gray-300">Clients</a></li>
             </ul>
         </nav>
     </div>
@@ -33,5 +34,17 @@
         <p>&copy; 2024 My Application. All rights reserved.</p>
     </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Display Success Message -->
+@if(session('success'))
+    <script>
+        Swal.fire({
+            title: 'Good job!',
+            text: '{{ session('success')  }}',
+            icon: 'success',
+        })
+    </script>
+@endif
+
 </body>
 </html>
