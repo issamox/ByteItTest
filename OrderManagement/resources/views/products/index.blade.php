@@ -12,6 +12,37 @@
     <div class="overflow-x-auto bg-white shadow-md rounded-lg p-4">
         <h2 class="text-2xl font-bold mb-6">Product List</h2>
 
+
+        <!-- Filter Form -->
+        <form action="{{ route('products.index') }}" method="GET" class="mb-4">
+            <div class="flex justify-between items-center gap-4 py-6 px-4 bg-gray-200">
+                <!-- Category Filter -->
+                <div class="w-full">
+                    <select name="category" id="category" class="form-control search-select w-full">
+                        <option value="">All Categories</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="w-full">
+                    <input type="number" name="min_price" id="min_price" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Min Price" value="{{ request('min_price') }}">
+                </div>
+                <div class="w-full">
+                    <input type="number" name="max_price" id="max_price" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Max Price" value="{{ request('max_price') }}">
+                </div>
+
+                <!-- Submit Button -->
+                <div class="w-full">
+                    <button type="submit" class="w-full bg-indigo-400 text-white py-2 px-4 rounded ml-2 hover:bg-indigo-600 mt-2">Filter</button>
+                </div>
+            </div>
+        </form>
+
         <table class="min-w-full table-auto">
             <thead class="bg-blue-600 text-white">
             <tr>

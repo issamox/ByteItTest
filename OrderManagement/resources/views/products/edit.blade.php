@@ -17,6 +17,19 @@
             </div>
 
             <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Product category</label>
+                <select name="category_id" class="search-select w-full"  required>
+                    <option value="" data-price="0">Select a category</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @selected( $category->id == $product->category->id ) > {{ $category->name }} </option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-4">
                 <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                 <textarea id="description" name="description" rows="4" class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter product description" >{{ $product->description }}</textarea>
                 @error('description')

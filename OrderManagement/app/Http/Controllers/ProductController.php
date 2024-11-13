@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,10 +13,27 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::latest()->paginate(10);
-        return view('products.index', compact('products'));
+        $categories = Category::all();
+
+        // Start a query to get products
+        $query = Product::query();
+
+        // Filter by category if a category is selected
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        // Filter by price range if both min and max prices are provided
+        if ($request->filled('min_price') && $request->filled('max_price')) {
+            $query->whereBetween('price', [$request->min_price, $request->max_price]);
+        }
+
+        // Get the filtered products with pagination
+        $products = $query->paginate(10);
+
+        return view('products.index', compact('products','categories'));
     }
 
     /**
@@ -23,7 +41,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $categories = Category::all();
+        return view('products.create',compact('categories'));
     }
 
     /**
@@ -33,6 +52,7 @@ class ProductController extends Controller
     {
          Product::create([
             'name' => $request->name,
+            'category_id' => $request->category_id,
             'description' => $request->description,
             'price' => $request->price,
             'image' => $request->hasFile('image') ? $request->file('image')->store('products', 'public') : null,
@@ -46,7 +66,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        $categories = Category::all();
+        return view('products.edit', compact('product','categories'));
     }
 
     /**
@@ -66,6 +87,7 @@ class ProductController extends Controller
         // Update the product data
         $product->update([
             'name' => $request->name,
+            'category_id' => $request->category_id,
             'description' => $request->description,
             'price' => $request->price,
             'image' => $imagePath,
