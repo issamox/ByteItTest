@@ -14,6 +14,10 @@ class ProjectController extends Controller
 {
     use  AuthorizesRequests;
 
+    /**
+     * @OA\Info(title="My First API", version="0.1")
+     */
+
 
     public function search(Request $request)
     {
@@ -41,7 +45,60 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * @OA\Schema(
+     *      schema="Project",
+     *      type="object",
+     *      required={"id", "title", "start_date", "user_id"},
+     *      @OA\Property(property="id", type="integer"),
+     *      @OA\Property(property="title", type="string"),
+     *      @OA\Property(property="description", type="string", nullable=true),
+     *      @OA\Property(property="start_date", type="string", format="date-time"),
+     *      @OA\Property(property="end_date", type="string", format="date-time", nullable=true),
+     *      @OA\Property(property="user_id", type="integer"),
+     *  )
+     * @OA\Get(
+     *     path="/api/projects",
+     *     summary="Get a list of projects for the authenticated user",
+     *     tags={"Projects"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="Authorization",
+     *         in="header",
+     *         required=true,
+     *         description="Bearer token",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="A list of projects for the authenticated user",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="current_page", type="integer"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/Project")
+     *             ),
+     *             @OA\Property(property="first_page_url", type="string"),
+     *             @OA\Property(property="last_page_url", type="string"),
+     *             @OA\Property(property="next_page_url", type="string", nullable=true),
+     *             @OA\Property(property="prev_page_url", type="string", nullable=true),
+     *             @OA\Property(property="total", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Server error")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
