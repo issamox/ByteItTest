@@ -7,18 +7,46 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class ProjectController extends Controller
 {
     use  AuthorizesRequests;
+
+
+    public function search(Request $request)
+    {
+        $title = $request->get('title');
+        $description = $request->get('description');
+
+        $query = Project::query();
+
+
+        if ($title) {
+            $query->where('title', 'like', '%' . $title . '%');
+        }
+
+        if ($description) {
+            $query->where('description', 'like', '%' . $description . '%');
+        }
+
+        $projects = $query->paginate(10);
+
+        if ($projects->isEmpty()) {
+            return response()->json(['message' => 'No projects found'], 404);
+        }
+
+        return ProjectResource::collection($projects);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $projects = Cache::remember("projects_user_".auth()->id(), 60, function() {
-            return Project::where('user_id', auth()->id())->orderBy('start_date', 'asc')->paginate(10);
+            return Project::where('user_id', auth()->id())->with('tasks')->orderBy('start_date', 'asc')->paginate(10);
         });
         return ProjectResource::collection($projects);
 
@@ -44,6 +72,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $this->authorize('view', $project);
+         $project->load('tasks');
         return new ProjectResource($project);
     }
 

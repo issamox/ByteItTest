@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\AuthController;
 use \App\Http\Controllers\ProjectController;
+use \App\Http\Controllers\TaskController;
 
 /*Route::get('/user', function (Request $request) {
     return $request->user();
@@ -17,4 +18,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('projects', ProjectController::class);
+    Route::apiResource('tasks', TaskController::class);
+
+    Route::get('/projectSearch', [ProjectController::class, 'search']);
 });
