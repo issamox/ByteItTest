@@ -24,9 +24,16 @@ class StoreClientRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:clients,email|max:255',
-            'phone' => 'required|regex:/^(\+?[0-9]{1,4})?\(?\d{1,4}\)?[\d\-\s]+$/', // Simple phone number regex (adjust as needed)
+            'phone' => ['required', 'regex:/^(06|07)[0-9]{8}$/'], // Validates 10 digits starting with 06 or 07
             'address' => 'required|string|max:500',
 
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'phone.regex' => 'The phone number must start with 06 or 07 and be exactly 10 digits.',
         ];
     }
 }

@@ -32,15 +32,14 @@
                         <td class="py-3 px-6">{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y')  }}</td>
                         <td class="py-3 px-6">{{ $order->status }}</td>
 
-
                         <td class="py-3 px-6">
                             <a href="{{ route('orders.edit', $order->id) }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">Edit</a>
+                            <a href="{{ route('orders.pdf', $order->id) }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">Download PDF</a>
                             <form action="{{ route('orders.destroy', $order->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this order?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded  hover:bg-red-600">Delete</button>
                             </form>
-                            <a href="{{ route('orders.pdf', $order->id) }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">Download PDF</a>
                         </td>
                     </tr>
                 @empty

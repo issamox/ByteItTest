@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-gray-800 text-white py-4">
+<footer class="bg-gray-800 text-white py-4 fixed left-0 bottom-0 right-0 w-full mt-4 shadow-lg">
     <div class="container mx-auto text-center">
         <p>&copy; 2024 My Application. All rights reserved.</p>
     </div>

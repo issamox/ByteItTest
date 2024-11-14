@@ -24,7 +24,7 @@ class UpdateClientRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:clients,email,' . $this->client->id,
-            'phone' => 'required|regex:/^(\+?[0-9]{1,4})?\(?\d{1,4}\)?[\d\-\s]+$/',
+            'phone' => ['required', 'regex:/^(06|07)[0-9]{8}$/'], // Validates 10 digits starting with 06 or 07
             'address' => 'required|string|max:500',
 
         ];

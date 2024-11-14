@@ -19,7 +19,7 @@ class ClientFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
+            'phone' => '0' . $this->faker->randomElement([6, 7]) . $this->faker->numerify('########'),
             'address' => $this->faker->address(),
         ];
     }

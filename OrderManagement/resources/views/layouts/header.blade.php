@@ -15,12 +15,12 @@
 <!-- Header -->
 <header class="bg-blue-600 text-white py-4">
     <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-2xl font-bold">BYTEIT</h1>
+        <a class="text-2xl font-bold" href="{{ route('products.index') }}">BYTEIT</a>
         <nav>
             <ul class="flex space-x-6">
-                <li><a href="{{ route('products.index') }}" class="hover:text-gray-300">Products</a></li>
-                <li><a href="{{ route('clients.index') }}" class="hover:text-gray-300">Clients</a></li>
-                <li><a href="{{ route('orders.index') }}" class="hover:text-gray-300">Orders</a></li>
+                <li><a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'text-black underline' : 'hover:text-gray-300' }}">Products</a></li>
+                <li><a href="{{ route('clients.index') }}" class="{{ request()->routeIs('clients.*') ? 'text-black underline' : 'hover:text-gray-300' }}">Clients</a></li>
+                <li><a href="{{ route('orders.index') }}" class="{{ request()->routeIs('orders.*') ? 'text-black underline' : 'hover:text-gray-300' }}">Orders</a></li>
             </ul>
         </nav>
     </div>

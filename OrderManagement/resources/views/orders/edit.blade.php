@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <a href="{{ route('orders.index') }}" class="my-3 underline decoration-1 text-blue-500 font-bold inline-block text-xl py-2  rounded ">Back</a>
+
     <div class="mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h2 class="text-2xl font-bold mb-6 text-center">Update Order : #{{ $order->order_number  }} </h2>
 
@@ -90,6 +92,7 @@
                 </tfoot>
             </table>
 
+            <hr class="my-3 border-2 border-dashed">
             <!-- Add Product Button -->
             <div class="flex">
                 <button type="button" id="add-product" class="bg-green-500 text-white py-2 px-6 rounded-lg hover:bg-green-600">Add Another Product</button>
