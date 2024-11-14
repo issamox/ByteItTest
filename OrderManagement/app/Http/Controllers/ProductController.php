@@ -31,7 +31,7 @@ class ProductController extends Controller
         }
 
         // Get the filtered products with pagination
-        $products = $query->paginate(10);
+        $products = $query->latest()->paginate(10);
 
         return view('products.index', compact('products','categories'));
     }
