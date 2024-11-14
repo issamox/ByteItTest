@@ -27,6 +27,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        $this->authorize('view', $task);
         return new TaskResource($task);
     }
 
