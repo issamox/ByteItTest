@@ -9,7 +9,10 @@
 
         <!-- Clients Table -->
         <div class="overflow-x-auto bg-white shadow-md rounded-lg p-4">
-            <h2 class="text-2xl font-bold mb-6">Orders List</h2>
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold mb-6">Orders List</h2>
+                <a href="{{ route('orders.export') }}" class="bg-sky-500 text-white py-2 px-4 rounded hover:bg-sky-600">Exporter en CSV</a>
+            </div>
 
             <table class="min-w-full table-auto">
                 <thead class="bg-blue-600 text-white">
@@ -31,13 +34,13 @@
 
 
                         <td class="py-3 px-6">
-                            <a href="{{ route('orders.pdf', $order->id) }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">Download PDF</a>
                             <a href="{{ route('orders.edit', $order->id) }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">Edit</a>
                             <form action="{{ route('orders.destroy', $order->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this order?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded ml-2 hover:bg-red-600">Delete</button>
+                                <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded  hover:bg-red-600">Delete</button>
                             </form>
+                            <a href="{{ route('orders.pdf', $order->id) }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">Download PDF</a>
                         </td>
                     </tr>
                 @empty

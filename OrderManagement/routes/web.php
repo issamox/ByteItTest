@@ -13,4 +13,5 @@ Route::resource('products', ProductController::class)->except(['show']);
 Route::resource('clients', ClientController::class)->except(['show']);
 Route::resource('orders', OrderController::class)->except(['show']);
 
-Route::get('orders/{order}/pdf', [OrderController::class, 'generatePDF'])->name('orders.pdf');
+Route::get('/orders/{order}/pdf', [OrderController::class, 'generatePDF'])->name('orders.pdf');
+Route::get('/orders/export', [OrderController::class, 'exportCsv'])->name('orders.export');

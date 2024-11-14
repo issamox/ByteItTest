@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Order;
 use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Response;
 
 
 
@@ -30,6 +31,7 @@ class OrderController extends Controller
         $clients = Client::all();
         $products = Product::all();
         $order_num =  Order::max('id') + 1;
+
         return view('orders.create', compact('clients','products','order_num'));
     }
 
@@ -58,13 +60,6 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -74,9 +69,7 @@ class OrderController extends Controller
         $clients = Client::all();
         $products = Product::all();
         // Calculate total price
-        $total = $order->products->sum(function ($product) {
-            return $product->pivot->quantity * $product->price; // quantity * price
-        });
+        $total = $this->calculateTotalPrice($order);
         return view('orders.edit', compact('clients','products','order','total'));
     }
 
@@ -122,14 +115,69 @@ class OrderController extends Controller
     public function generatePDF(Order $order)
     {
         // Calculate total price
-        $total = $order->products->sum(function ($product) {
-            return $product->pivot->quantity * $product->price; // quantity * price
-        });
+        $total = $this->calculateTotalPrice($order);
         // Load a view with the order data
         $pdf = Pdf::loadView('orders.pdf', compact('order','total'));
 
         // Return the generated PDF as a response to the browser
         return $pdf->download('order-' . $order->id . '.pdf');
     }
+
+    public function exportCsv()
+    {
+        // Récupère toutes les commandes avec leurs clients et produits
+        $orders = Order::with('client', 'products')->get();
+
+        // Nomme le fichier
+        $fileName = 'orders_' . date('Y-m-d_H-i-s') . '.csv';
+
+        // Crée les en-têtes pour le CSV
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
+        ];
+
+        // Crée le contenu du fichier CSV
+        $columns = ['Order ID', 'Order Number', 'Client Name', 'Product Names', 'Total Price', 'Order Date'];
+
+        $callback = function () use ($orders, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($orders as $order) {
+                // Récupère les noms des produits pour chaque commande
+                $productNames = $order->products->pluck('name')->join(', ');
+
+                // Calcule le prix total de la commande
+                $totalPrice = $this->calculateTotalPrice($order);
+
+                // Écrit une ligne dans le CSV
+                fputcsv($file, [
+                    $order->id,
+                    $order->order_number,
+                    $order->client->name,
+                    $productNames,
+                    $totalPrice,
+                    $order->created_at->format('Y-m-d'),
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        // Retourne le fichier CSV en tant que réponse
+        return Response::stream($callback, 200, $headers);
+    }
+
+    private function calculateTotalPrice(Order $order){
+
+        $total = $order->products->sum(function ($product) {
+            return $product->pivot->quantity * $product->price; // quantity * price
+        });
+
+        return $total;
+
+    }
+
 
 }
