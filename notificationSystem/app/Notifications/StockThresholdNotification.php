@@ -41,7 +41,7 @@ class StockThresholdNotification extends Notification
             ->subject('Seuil de Stock Atteint')
             ->line("Le produit '{$this->product->name}' a atteint son seuil minimum.")
             ->line("Quantité actuelle : {$this->product->quantity_in_stock}")
-            ->action('Voir le produit', url("/products/{$this->product->id}"))
+            ->action('Voir le produit', url("/products/{$this->product->id}/edit"))
             ->line('Veuillez réapprovisionner ce produit rapidement.');
 
     }

@@ -5,7 +5,10 @@
     <h1 class="text-center text-2xl font-bold">Product List</h1>
 
     <!--  create a new product -->
-    <a href="{{ route('products.create') }}" class="bg-green-500 text-white my-5 px-4 py-2 inline-block rounded hover:bg-yellow-600">Create New Product</a>
+    <div class="flex justify-between items-center">
+        <a href="{{ route('products.create') }}" class="bg-green-500 text-white my-5 px-4 py-2 inline-block rounded hover:bg-yellow-600">Create New Product</a>
+        <a href="{{ route('products.export') }}" class="bg-blue-500 text-white my-5 px-4 py-2 inline-block rounded hover:bg-yellow-600">Export Products</a>
+    </div>
 
 
     <!-- Products Table -->
